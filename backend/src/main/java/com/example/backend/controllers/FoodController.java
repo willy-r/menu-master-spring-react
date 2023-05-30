@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/foods")
 public class FoodController {
     @Autowired
@@ -19,8 +20,7 @@ public class FoodController {
     @GetMapping
     public List<FoodResponseDTO> findAll() {
         List<Food> foodList = foodService.findAll();
-        List<FoodResponseDTO> foodResponseDtoList = foodList.stream().map(FoodResponseDTO::new).toList();
-        return foodResponseDtoList;
+        return foodList.stream().map(FoodResponseDTO::new).toList();
     }
 
     @GetMapping("/{id}")
