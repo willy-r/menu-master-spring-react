@@ -1,12 +1,12 @@
 package com.example.backend.controllers;
 
-import com.example.backend.dtos.FoodDTO;
+import com.example.backend.dtos.food.FoodRequestDTO;
+import com.example.backend.dtos.food.FoodResponseDTO;
 import com.example.backend.entities.Food;
 import com.example.backend.services.FoodService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,9 +17,23 @@ public class FoodController {
     private FoodService foodService;
 
     @GetMapping
-    public List<FoodDTO> findAll() {
+    public List<FoodResponseDTO> findAll() {
         List<Food> foodList = foodService.findAll();
-        List<FoodDTO> foodDtoList = foodList.stream().map(FoodDTO::new).toList();
-        return foodDtoList;
+        List<FoodResponseDTO> foodResponseDtoList = foodList.stream().map(FoodResponseDTO::new).toList();
+        return foodResponseDtoList;
+    }
+
+    @GetMapping("/{id}")
+    public FoodResponseDTO findById(@PathVariable Long id) {
+        Food foodObj = foodService.findById(id);
+        return new FoodResponseDTO(foodObj);
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping
+    public FoodResponseDTO insert(@RequestBody FoodRequestDTO foodRequestDTO) {
+        Food foodObj = Food.fromRequestDTO(foodRequestDTO);
+        foodObj = foodService.insert(foodObj);
+        return new FoodResponseDTO(foodObj);
     }
 }
