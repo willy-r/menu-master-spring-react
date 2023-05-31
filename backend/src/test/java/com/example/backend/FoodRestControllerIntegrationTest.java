@@ -43,27 +43,27 @@ public class FoodRestControllerIntegrationTest {
 
     @Test
     public void givenFoods_whenGetFoods_thenStatus200() throws Exception {
-        createTestFood("FoodTest1", "test-image1", 10.0);
-        createTestFood("FoodTest2", "test-image2", 10.0);
+        Food createdFood1 = createTestFood("FoodTest1", "test-image1", 10.0);
+        Food createdFood2 = createTestFood("FoodTest2", "test-image2", 10.0);
 
         mvc.perform(get("/foods").contentType(MediaType.APPLICATION_JSON))
             .andDo(print())
             .andExpect(status().isOk())
             .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$", hasSize(equalTo(2))))
-            .andExpect(jsonPath("$[0].title", is("FoodTest1")))
-            .andExpect(jsonPath("$[1].title", is("FoodTest2")));
+            .andExpect(jsonPath("$[0].title", is(createdFood1.getTitle())))
+            .andExpect(jsonPath("$[1].title", is(createdFood2.getTitle())));
     }
 
     @Test
     public void givenFoodId_whenGetFood_thenStatus200() throws Exception {
-        createTestFood("FoodTest", "test-image", 10.0);
+        Food createdFood = createTestFood("FoodTest", "test-image", 10.0);
 
-        mvc.perform(get("/foods/1").contentType(MediaType.APPLICATION_JSON))
+        mvc.perform(get("/foods/" + createdFood.getId()).contentType(MediaType.APPLICATION_JSON))
             .andDo(print())
             .andExpect(status().isOk())
             .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.title", is("FoodTest")));
+            .andExpect(jsonPath("$.title", is(createdFood.getTitle())));
     }
 
     @Test
@@ -89,9 +89,9 @@ public class FoodRestControllerIntegrationTest {
 
     @Test
     public void givenFoodId_whenDeleteFood_thenDeleteFood() throws Exception {
-        createTestFood("FoodTest", "test-image", 10.0);
+        Food createdFood = createTestFood("FoodTest", "test-image", 10.0);
 
-        mvc.perform(delete("/foods/1").contentType(MediaType.APPLICATION_JSON))
+        mvc.perform(delete("/foods/" + createdFood.getId()).contentType(MediaType.APPLICATION_JSON))
             .andDo(print())
             .andExpect(status().isNoContent());
 
@@ -109,10 +109,10 @@ public class FoodRestControllerIntegrationTest {
 
     @Test
     public void givenFoodIdWithValidInput_whenUpdateFood_thenUpdateFood() throws Exception {
-        createTestFood("FoodTest", "test-image", 10.0);
+        Food createdFood = createTestFood("FoodTest", "test-image", 10.0);
 
         FoodRequestDTO foodRequestDTO = new FoodRequestDTO("TestFoodUpdate", "test-image-update", 5.0);
-        mvc.perform(put("/foods/1").contentType(MediaType.APPLICATION_JSON).content(JsonUtil.toJson(foodRequestDTO)))
+        mvc.perform(put("/foods/" + createdFood.getId()).contentType(MediaType.APPLICATION_JSON).content(JsonUtil.toJson(foodRequestDTO)))
             .andDo(print())
             .andExpect(status().isOk())
             .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
@@ -132,8 +132,8 @@ public class FoodRestControllerIntegrationTest {
             .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
     }
 
-    private void createTestFood(String title, String image, double price) {
+    private Food createTestFood(String title, String image, double price) {
         Food food = new Food(title, image, price);
-        foodRepository.save(food);
+        return foodRepository.saveAndFlush(food);
     }
 }
