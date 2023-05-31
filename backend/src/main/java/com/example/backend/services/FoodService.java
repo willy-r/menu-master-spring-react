@@ -26,4 +26,9 @@ public class FoodService {
         Optional<Food> foodObj = foodRepository.findById(id);
         return foodObj.orElseThrow(() -> new ObjectNotFoundException("Object with identifier " + id + " not found."));
     }
+
+    public void delete(Long id) {
+        findById(id);
+        foodRepository.deleteById(id);
+    }
 }

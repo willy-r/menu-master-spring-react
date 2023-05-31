@@ -29,11 +29,17 @@ public class FoodController {
         return new FoodResponseDTO(foodObj);
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public FoodResponseDTO insert(@RequestBody FoodRequestDTO foodRequestDTO) {
         Food foodObj = Food.fromRequestDTO(foodRequestDTO);
         foodObj = foodService.insert(foodObj);
         return new FoodResponseDTO(foodObj);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
+        foodService.delete(id);
     }
 }
