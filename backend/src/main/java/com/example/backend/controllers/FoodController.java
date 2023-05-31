@@ -42,4 +42,10 @@ public class FoodController {
     public void delete(@PathVariable Long id) {
         foodService.delete(id);
     }
+
+    @PutMapping("/{id}")
+    public FoodResponseDTO update(@PathVariable Long id, @RequestBody FoodRequestDTO foodRequestDTO) {
+        Food foodObj = foodService.update(id, foodRequestDTO);
+        return new FoodResponseDTO(foodObj);
+    }
 }

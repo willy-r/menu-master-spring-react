@@ -1,5 +1,6 @@
 package com.example.backend.services;
 
+import com.example.backend.dtos.food.FoodRequestDTO;
 import com.example.backend.entities.Food;
 import com.example.backend.repositories.FoodRepository;
 import com.example.backend.services.exceptions.ObjectNotFoundException;
@@ -30,5 +31,11 @@ public class FoodService {
     public void delete(Long id) {
         findById(id);
         foodRepository.deleteById(id);
+    }
+
+    public Food update(Long id, FoodRequestDTO foodRequestDTO) {
+        Food foodEntity = findById(id);
+        Food.updateData(foodEntity, foodRequestDTO);
+        return foodRepository.save(foodEntity);
     }
 }

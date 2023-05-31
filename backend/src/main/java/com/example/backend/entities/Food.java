@@ -2,14 +2,12 @@ package com.example.backend.entities;
 
 import com.example.backend.dtos.food.FoodRequestDTO;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Table(name = "foods")
 @Entity(name = "foods")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -29,5 +27,11 @@ public class Food {
 
     public static Food fromRequestDTO(FoodRequestDTO foodRequestDTO) {
         return new Food(foodRequestDTO.title(), foodRequestDTO.image(), foodRequestDTO.price());
+    }
+
+    public static void updateData(Food foodEntity, FoodRequestDTO foodRequestDTO) {
+        foodEntity.setTitle(foodRequestDTO.title());
+        foodEntity.setImage(foodRequestDTO.image());
+        foodEntity.setPrice(foodRequestDTO.price());
     }
 }
