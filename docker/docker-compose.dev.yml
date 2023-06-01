@@ -2,11 +2,12 @@ version: '3.9'
 name: menu-master
 
 services:
-  dbm-adminer:
-    image: adminer:4.8.1
-    restart: always
+  backend:
+    build:
+      context: ../
+      dockerfile: ./docker/dockerfile.spring.dev
     ports:
-      - 8080:8080
+      - 8000:8000
     depends_on:
       db-postgresql:
         condition: service_healthy
@@ -25,10 +26,21 @@ services:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin123
       POSTGRES_DB: development
-    ports:
-      - 5432:5432
+    # ports:
+    #   - 5432:5432
     volumes:
       - db-data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  dbm-adminer:
+    image: adminer:4.8.1
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      db-postgresql:
+        condition: service_healthy
     networks:
       - app-network
 
