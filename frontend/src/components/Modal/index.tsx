@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Input from "../Input";
 import { useFoodDataMutate } from "../../hooks/useFoodDataMutate";
@@ -6,12 +6,22 @@ import { FoodDataCreate } from "../../interfaces/food";
 
 import "./styles.css";
 
-const Modal = () => {
+interface ModalProps {
+  closeModal(): void;
+}
+
+const Modal = ({ closeModal }: ModalProps) => {
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState(0);
   const [image, setImage] = useState("");
 
-  const { mutate } = useFoodDataMutate();
+  const { mutate, isSuccess, isLoading } = useFoodDataMutate();
+
+  useEffect(() => {
+    if (isSuccess) {
+      closeModal();
+    }
+  }, [isSuccess]);
 
   const submit = () => {
     const foodData: FoodDataCreate = {
@@ -31,8 +41,8 @@ const Modal = () => {
           <Input label="Price" value={price} updateValue={setPrice} />
           <Input label="Image" value={image} updateValue={setImage} />
         </form>
-        <button type="submit" onClick={submit} className="btn-secondary">
-          Register
+        <button onClick={submit} className="btn-secondary">
+          {isLoading ? "Registering..." : "Register"}
         </button>
       </div>
     </div>

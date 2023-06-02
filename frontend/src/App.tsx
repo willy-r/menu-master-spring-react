@@ -31,7 +31,7 @@ const App = () => {
         ))}
       </div>
       <button onClick={handleModal}>New food</button>
-      {isModalOpen && <Modal />}
+      {isModalOpen && <Modal closeModal={handleModal} />}
     </div>
   );
 };
