@@ -4,3 +4,9 @@ export interface FoodData {
   image: string;
   price: number;
 }
+
+export interface FoodDataCreate {
+  title: string;
+  image: string;
+  price: number;
+}
