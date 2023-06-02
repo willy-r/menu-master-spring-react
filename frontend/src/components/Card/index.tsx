@@ -1,3 +1,4 @@
+import { formatter } from "../../util/priceFormatter";
 import "./styles.css";
 
 interface CardProps {
@@ -9,10 +10,10 @@ interface CardProps {
 const Card = ({ price, image, title }: CardProps) => {
   return (
     <div className="card">
-      <img src="" alt="" />
-      <h2></h2>
+      <img src={image} alt={`Food image of ${title}`} />
+      <h2>{title}</h2>
       <p>
-        <b>Valor:</b>
+        <b>Valor: {formatter.format(price)}</b>
       </p>
     </div>
   );
