@@ -1,6 +1,8 @@
 import Card from "./components/Card";
 import { useFoodData } from "./hooks/useFoodData";
 
+import "./assets/styles/App.css";
+
 const App = () => {
   const { data } = useFoodData();
 
