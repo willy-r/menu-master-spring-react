@@ -4,6 +4,8 @@ import Input from "../Input";
 import { useFoodDataMutate } from "../../hooks/useFoodDataMutate";
 import { FoodDataCreate } from "../../interfaces/food";
 
+import "./styles.css";
+
 const Modal = () => {
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState(0);
@@ -21,15 +23,15 @@ const Modal = () => {
   };
 
   return (
-    <div className="modal-overflow">
+    <div className="modal-overlay">
       <div className="modal-body">
         <h2>Register a new food on our menu</h2>
-        <form className="input-container">
-          <Input label="title" value={title} updateValue={setTitle} />
-          <Input label="price" value={price} updateValue={setPrice} />
-          <Input label="image" value={image} updateValue={setImage} />
+        <form className="form-container">
+          <Input label="Title" value={title} updateValue={setTitle} />
+          <Input label="Price" value={price} updateValue={setPrice} />
+          <Input label="Image" value={image} updateValue={setImage} />
         </form>
-        <button onClick={submit} className="btn-secondary">
+        <button type="submit" onClick={submit} className="btn-secondary">
           Register
         </button>
       </div>

@@ -1,3 +1,5 @@
+import "./styles.css";
+
 interface InputProps {
   label: string;
   value: string | number;
@@ -7,11 +9,12 @@ interface InputProps {
 const Input = ({ label, value, updateValue }: InputProps) => {
   return (
     <>
-      <label>{label}</label>
+      <label className="main-label">{label}</label>
       <input
+        className="main-input"
         value={value}
         onChange={(event) => updateValue(event.target.value)}
-      ></input>
+      />
     </>
   );
 };
