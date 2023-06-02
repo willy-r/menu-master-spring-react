@@ -1,4 +1,4 @@
-# Learning Spring Boot - Spring Boot 3 + MongoDB
+# Menu Master Fullstack Application - Spring Boot 3 + ReactJS + PostgreSQL
 
 
 ## Table of Contents:

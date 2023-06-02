@@ -1,14 +1,25 @@
-import './App.css'
+import Card from "./components/Card";
+import { useFoodData } from "./hooks/useFoodData";
 
 const App = () => {
+  const { data } = useFoodData();
+
   return (
     <div className="container">
-      <h1>Menu<span>Master</span></h1>
+      <h1>
+        Menu<span>Master</span>
+      </h1>
       <div className="card-grid">
-        
+        {data?.map((foodData) => (
+          <Card
+            price={foodData.price}
+            title={foodData.title}
+            image={foodData.image}
+          />
+        ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
