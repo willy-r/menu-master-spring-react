@@ -13,6 +13,20 @@ services:
         condition: service_healthy
     networks:
       - app-network
+  
+  frontend:
+    build:
+      context: ../
+      dockerfile: ./docker/dockerfile.react.dev
+    ports:
+      - 3000:3000
+    environment:
+      - VITE_APP_PORT=3000
+      - VITE_BASE_API_URL=http://backend:8000
+    depends_on:
+      - backend
+    networks:
+      - app-network
 
   db-postgresql:
     image: postgres:15.2-alpine
